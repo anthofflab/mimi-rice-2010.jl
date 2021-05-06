@@ -1,7 +1,7 @@
 module MimiRICE2010
 
 using Mimi
-using XLSX: readxlsx
+using XLSX:readxlsx
 
 include("helpers.jl")
 include("marginaldamage.jl")
@@ -28,9 +28,9 @@ function constructrice(p)
     set_dimension!(m, :time, model_years)
     set_dimension!(m, :regions, ["US", "EU", "Japan", "Russia", "Eurasia", "China", "India", "MidEast", "Africa", "LatAm", "OHI", "OthAsia"])
 
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # Add components in order
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     add_comp!(m, grosseconomy, :grosseconomy)
     add_comp!(m, emissions, :emissions)
@@ -43,9 +43,9 @@ function constructrice(p)
     add_comp!(m, neteconomy, :neteconomy)
     add_comp!(m, welfare, :welfare)
 
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # Make internal parameter connections
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     # GROSS ECONOMY COMPONENT
     connect_param!(m, :grosseconomy, :I, :neteconomy, :I)
@@ -82,15 +82,15 @@ function constructrice(p)
     # WELFARE COMPONENT
     connect_param!(m, :welfare, :CPC, :neteconomy, :CPC)
 
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # Set external parameter values 
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     for (name, value) in p
         set_param!(m, name, value)
     end
 
     return m
-end #function
+end # function
 
 function get_model(;datafile=joinpath(@__DIR__, "..", "data", "RICE_2010_base_000.xlsm"))
     params = getrice2010parameters(datafile)
@@ -98,8 +98,8 @@ function get_model(;datafile=joinpath(@__DIR__, "..", "data", "RICE_2010_base_00
     m = constructrice(params)
 
     return m
-end #function
+end # function
 
 getrice = get_model     # Maintain the old `getrice` function name in addition to the standard MimiRICE2010.get_model
 
-end #module
+end # module

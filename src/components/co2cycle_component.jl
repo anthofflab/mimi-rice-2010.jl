@@ -10,11 +10,11 @@
     mu0 = Parameter() # Initial Concentration in upper strata 2010 (GtC)
     ml0 = Parameter() # Initial Concentration in lower strata 2010 (GtC)
 
-    #Flow paramaters
+    # Flow paramaters
     b12 = Parameter() # Carbon cycle transition matrix
     b23 = Parameter() # Carbon cycle transition matrix
 
-    #Parameters for long-run consistency of carbon cycle
+    # Parameters for long-run consistency of carbon cycle
     b11 = Parameter() # Carbon cycle transition matrix
     b21 = Parameter() # Carbon cycle transition matrix
     b22 = Parameter() # Carbon cycle transition matrix
@@ -22,34 +22,34 @@
     b33 = Parameter() # Carbon cycle transition matrix
 
     function run_timestep(p, v, d, t)
-        #Define function for MAT
-        if is_first(t)
-            v.MAT[t] = p.mat0
-        elseif t.t == 2
+        # Define function for MAT
+    if is_first(t)
+        v.MAT[t] = p.mat0
+    elseif t.t == 2
             v.MAT[t] = p.mat1
         else
-            v.MAT[t] = v.MAT[t-1] * p.b11 + v.MU[t-1] * p.b21 + (p.E[t-1] * 10)
-        end
-
-        #Define function for ML
-        if is_first(t)
-            v.ML[t] = p.ml0
-        else
-            v.ML[t] = v.ML[t-1] * p.b33 + v.MU[t-1] * p.b23
-        end
-
-        #Define function for MU
-        if is_first(t)
-            v.MU[t] = p.mu0
-        else
-            v.MU[t] = v.MAT[t-1] * p.b12 + v.MU[t-1] * p.b22 + v.ML[t-1] * p.b32
-        end
-
-        #Define function for MATSUM
-        if is_first(t)
-            v.MATSUM[t] = 0
-        else
-            v.MATSUM[t] = v.MAT[t] + (v.MAT[t] * p.b11 + v.MU[t] * p.b21 +  (p.E[t] * 10))
-        end
+            v.MAT[t] = v.MAT[t - 1] * p.b11 + v.MU[t - 1] * p.b21 + (p.E[t - 1] * 10)
     end
+
+        # Define function for ML
+    if is_first(t)
+        v.ML[t] = p.ml0
+    else
+        v.ML[t] = v.ML[t - 1] * p.b33 + v.MU[t - 1] * p.b23
+    end
+
+        # Define function for MU
+    if is_first(t)
+        v.MU[t] = p.mu0
+    else
+        v.MU[t] = v.MAT[t - 1] * p.b12 + v.MU[t - 1] * p.b22 + v.ML[t - 1] * p.b32
+    end
+
+        # Define function for MATSUM
+    if is_first(t)
+        v.MATSUM[t] = 0
+    else
+        v.MATSUM[t] = v.MAT[t] + (v.MAT[t] * p.b11 + v.MU[t] * p.b21 +  (p.E[t] * 10))
+    end
+end
 end

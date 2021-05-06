@@ -15,23 +15,23 @@
     L = Variable(index=[time, regions])
 
     function run_timestep(p, v, d, t)
-        #Define function for K
-        for r in d.regions
-            if is_first(t)
-                v.K[t,r] = p.k0[r]
-            else
-                v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.I[t-1,r]
-            end
-        end
-
-        #Define function for YGROSS
-        for r in d.regions
-            v.YGROSS[t,r] = (p.al[t,r] * (p.l[t,r]/1000)^(1-p.gama)) * (v.K[t,r]^p.gama)
-        end
-
-        # TODO remove this, just a temporary output trick
-        for r in d.regions
-            v.L[t,r] = p.l[t,r]
+        # Define function for K
+    for r in d.regions
+        if is_first(t)
+            v.K[t,r] = p.k0[r]
+        else
+            v.K[t,r] = (1 - p.dk[r])^10 * v.K[t - 1,r] + 10 * p.I[t - 1,r]
         end
     end
+
+        # Define function for YGROSS
+    for r in d.regions
+        v.YGROSS[t,r] = (p.al[t,r] * (p.l[t,r] / 1000)^(1 - p.gama)) * (v.K[t,r]^p.gama)
+    end
+
+        # TODO remove this, just a temporary output trick
+    for r in d.regions
+        v.L[t,r] = p.l[t,r]
+    end
+end
 end
