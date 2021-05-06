@@ -24,7 +24,7 @@ function getrice2010parameters(filename)
     # Capital elasticity in production function
     p[:gama] = 0.300
     p[:dk]  = getparam_single(f, "B8:B8", regions) # Depreciation rate on capital (per year)
-    p[:k0] = getparam_single(f, "B11:B11", regions) #Initial capital
+    p[:k0] = getparam_single(f, "B11:B11", regions) # Initial capital
     # p[:miu0] = getparam_single(f, "B103:B103", regions) # Initial emissions control rate for base case 2010; not currently used in constructrice
     # p[:miubase] = getparam_timeseries(f, "B103:BI103", regions, T) # Optimized emission control rate results from RICE2010 (base case); duplicate line to p[:MIU]
 
@@ -39,15 +39,15 @@ function getrice2010parameters(filename)
     # Carbon cycle transition matrix
 
     # Flow paramaters
-    p[:b12] = 12.0/100 # Carbon cycle transition matrix atmosphere to shallow ocean
-    p[:b23] = 0.5/100 # Carbon cycle transition matrix shallow to deep ocean
+    p[:b12] = 12.0 / 100 # Carbon cycle transition matrix atmosphere to shallow ocean
+    p[:b23] = 0.5 / 100 # Carbon cycle transition matrix shallow to deep ocean
 
     # Parameters for long-run consistency of carbon cycle
-    p[:b11] = 88.0/100 # Carbon cycle transition matrix atmosphere to atmosphere
-    p[:b21] = 4.704/100 # Carbon cycle transition matrix biosphere/shallow oceans to atmosphere
-    p[:b22] = 94.796/100 # Carbon cycle transition matrix shallow ocean to shallow oceans
-    p[:b32] = 0.075/100 # Carbon cycle transition matrix deep ocean to shallow ocean
-    p[:b33] = 99.925/100 # Carbon cycle transition matrix deep ocean to deep oceans
+    p[:b11] = 88.0 / 100 # Carbon cycle transition matrix atmosphere to atmosphere
+    p[:b21] = 4.704 / 100 # Carbon cycle transition matrix biosphere/shallow oceans to atmosphere
+    p[:b22] = 94.796 / 100 # Carbon cycle transition matrix shallow ocean to shallow oceans
+    p[:b32] = 0.075 / 100 # Carbon cycle transition matrix deep ocean to shallow ocean
+    p[:b33] = 99.925 / 100 # Carbon cycle transition matrix deep ocean to deep oceans
 
     # Climate model parameters
     p[:t2xco2] = 3.2 # Equilibrium temp impact (oC per doubling CO2)
@@ -87,7 +87,7 @@ function getrice2010parameters(filename)
 
     # Additive scaling coefficient (combines two additive scaling coefficients from RICE for calculating utility with welfare weights)
     scale2 = Array{Float64}(undef, length(regions))
-    for (i,r) in enumerate(regions)
+    for (i, r) in enumerate(regions)
         data = f[r]["B53:C53"]
         scale2[i] = data[1] - data[2]
     end
@@ -113,7 +113,7 @@ function getrice2010parameters(filename)
     # Exogenous forcing for other greenhouse gases
     forcoth =  Array{Float64}(undef, 60)
     data = f["Global"]["B21:BI21"]
-    for i=1:T
+    for i = 1:T
         forcoth[i] = data[i]
     end
     p[:forcoth] = forcoth

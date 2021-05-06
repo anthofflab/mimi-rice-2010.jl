@@ -13,18 +13,18 @@
 
     function run_timestep(p, v, d, t)
 
-        #Define function for DAMFRAC
-        for r in d.regions
-            v.DAMFRAC[t,r] = (((p.a1[r] * p.TATM[t]) + (p.a2[r] * p.TATM[t]^p.a3[r])) / 100) + (p.SLRDAMAGES[t,r] / 100)
-        end
+        # Define function for DAMFRAC
+    for r in d.regions
+        v.DAMFRAC[t,r] = (((p.a1[r] * p.TATM[t]) + (p.a2[r] * p.TATM[t]^p.a3[r])) / 100) + (p.SLRDAMAGES[t,r] / 100)
+    end
 
-        #Define function for DAMAGES
-        for r in d.regions
-            if is_first(t)
-                v.DAMAGES[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRAC[t,r]))
-            else
-                v.DAMAGES[t,r] = (p.YGROSS[t,r] * v.DAMFRAC[t,r]) / (1. + v.DAMFRAC[t,r]^10)
-            end
+        # Define function for DAMAGES
+    for r in d.regions
+        if is_first(t)
+            v.DAMAGES[t,r] = p.YGROSS[t,r] * (1 - 1 / (1 + v.DAMFRAC[t,r]))
+        else
+            v.DAMAGES[t,r] = (p.YGROSS[t,r] * v.DAMFRAC[t,r]) / (1. + v.DAMFRAC[t,r]^10)
         end
     end
+end
 end
